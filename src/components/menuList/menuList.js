@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image, Touchable} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import { FlatList, State, TextInput } from 'react-native-gesture-handler';
 import { Link } from '../routing/routing';
 
@@ -16,11 +16,7 @@ const menuList = props => {
         let mounted = true;
 
         let data = [
-            {ville: "Lyon"},
-            {ville: "Paris"},
-            {ville: "Marseille"},
-            {ville: "Dole"},
-            {ville: "Brussieu"}
+            {ville: "Lyon"}
         ]
         setState({...state, cities: data, inMemoryCities: data})
 
