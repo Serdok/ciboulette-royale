@@ -16,7 +16,7 @@ function Map({ match }) {
         (async () => {
             // Get city from routing
             const city = match.params['city'];
-            switch (city) {
+            switch (city.toLowerCase()) {
                 case "lyon":
                     const markers = await getDetailsForLyon();
                     console.log('api call');
