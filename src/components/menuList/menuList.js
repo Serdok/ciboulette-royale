@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image, Platform} from 'react-native';
 import { FlatList, State, TextInput } from 'react-native-gesture-handler';
 import { Link } from '../routing/routing';
 
@@ -135,9 +135,19 @@ const styles = StyleSheet.create({
         fontSize: 36,
         padding:10,
         color: 'white',
-        borderTopWidth: 0.5, 
         textAlign: 'center',
-        borderTopColor: '#7d90a0' 
+        ...Platform.select({
+            android: {
+                borderTopWidth: 0.5, 
+                borderTopColor: '#7d90a0',
+
+            },
+            default: {
+
+            }
+        })
+
+        
     }
 
 });
