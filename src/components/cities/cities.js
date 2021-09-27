@@ -79,13 +79,13 @@ function Cities({ navigation }) {
 
     return (
         <>
-            <SafeAreaView style={styles.citiesContainer}>
+            <View style={styles.citiesContainer}>
                 <FlatList data={filteredCities} renderItem={renderCity}
                           ListHeaderComponent={() => Search({ filterCities })}
                           //contentContainerStyle={styles.listContainer}
                           keyExtractor={item => item.id}
                 />
-            </SafeAreaView>
+            </View>
         </>
     );
 }
