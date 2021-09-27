@@ -8,18 +8,17 @@ const ASPECT_RATIO = Dimensions.get('window').width / Dimensions.get('window').h
 const LATITUDE_DELTA = 0.051;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-function Map({ match }) {
+function Map({ route }) {
     const [location, setLocation] = useState(null);
     const [markers, setMarkers] = useState(null);
 
     useEffect(() => {
         (async () => {
             // Get city from routing
-            const city = match.params['city'];
+            const { city } = route.params;
             switch (city.toLowerCase()) {
                 case "lyon":
                     const markers = await getDetailsForLyon();
-                    console.log('api call');
                     setMarkers(markers.features);
                     break;
             }

@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, FlatList, Sta
 
 
 
-const Faves = props => {
+const Faves = ({ route }) => {
 
 
     return(

@@ -1,28 +1,46 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, StatusBar } from 'react-native';
-import { Router, Route } from './components/routing/routing';
-import Header from './components/header/header';
+import { StyleSheet, View, Text, Button } from 'react-native';
 import Menu from './components/menuList/menuList';
+import Cities from './components/cities/cities';
 import Map from './components/map/map';
 import Faves from './components/faves/faves';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
-    useEffect(() => {
-
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <>
-            <StatusBar backgroundColor="#383838"/>
-            <Router>
-                <Header>
-                    <View style={styles.container}>
-                        <Route exact path="/" component={Menu}/>
-                        <Route path="/map/:city" component={Map}/>
-                        <Route path="/faves" component={Faves}/>
-                    </View>
-                </Header>
-            </Router>
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName;
+                            switch (route.name) {
+                                case 'Menu':
+                                    iconName = focused ? 'ios-compass' : 'ios-compass-outline';
+                                    break;
+                                case 'Favorites':
+                                    iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
+                                    break;
+                            }
+
+                            return <Ionicons name={iconName} size={size} color={color}/>;
+                        },
+                        tabBarActiveTintColor: 'tomato',
+                        tabBarInactiveTintColor: 'grey',
+                    })}
+                >
+                    <Tab.Screen name={'Menu'} component={Cities} options={{headerShown: false}}/>
+                    <Stack.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/>
+                </Tab.Navigator>
+            </NavigationContainer>
         </>
     );
 }
