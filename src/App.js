@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button, StatusBar } from 'react-native';
 import Cities from './components/menuList/menuList';
 import Map from './components/map/map';
 import Faves from './components/faves/faves';
@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { useFonts } from 'expo-font'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -14,8 +15,17 @@ const Tab = createBottomTabNavigator();
 function App() {
     useEffect(() => {}, []);
 
+    const [loaded] = useFonts({
+        Coolvetica: require("../assets/fonts/coolvetica.ttf")
+    });
+
+    if(!loaded) {
+        return null;
+    }
+
     return (
         <>
+           <StatusBar style="auto" />
            <NavigationContainer>
                 <Tab.Navigator
                     screenOptions={({ route }) => ({

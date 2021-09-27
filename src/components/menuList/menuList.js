@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, FlatList, State, TextInput} from 'react-native';
 
-
 const menuList = ({navigation}) => {
 
     const [state, setState] = React.useState ({
@@ -57,7 +56,7 @@ const CardElement = ({navigation, ville}) => {
 
     const changeColor = (tint) => {
         if(tint === "grey") {
-            setTint("red")
+            setTint("tomato")
         } else {
             setTint("grey")
         }
@@ -65,14 +64,19 @@ const CardElement = ({navigation, ville}) => {
 
     return(
         <>
-            <TouchableOpacity onPress={()=> navigation.navigate('Map', {city: ville})} style={styles.cardList}>
-                <View style={styles.villeName}>
-                    <Text style={styles.textNomVille}>{ville}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Map',{city:ville})} style={styles.tempCardList}>
+                <View style={{flex:2}}>
+                    <Image style={styles.cityPreview} source={{uri:'https://j3n6c2a8.rocketcdn.me/wp-content/uploads/2019/11/ville_lyon-scaled.jpg'}}/>
+                </View>
+                <View style={styles.cityNameContainer}>
+                    <Text style={styles.cityName}>{ville}</Text>
                 </View>
                 <TouchableOpacity style={styles.containerFave} onPress={() => changeColor(tint)}>
                     <Image style={[styles.faveIcon, {tintColor: tint}]} source={fave}/>
                 </TouchableOpacity>
             </TouchableOpacity>
+
+
         </>
     );
 }
@@ -85,6 +89,55 @@ const textColor = { color: "white" }
 
 
 const styles = StyleSheet.create({
+    cityPreview: {
+        height: 150,
+        ...Platform.select({
+            web:{
+                width: 250,
+            },
+            default: {
+                width: 150,
+            }
+        })
+    },
+    cityNameContainer: {
+        ...Platform.select({
+            web: {
+                flex:2,
+                justifyContent:"center"
+            },
+            android: {
+                justifyContent:"flex-end",
+                marginRight: 50
+            }
+        }),
+    },
+    cityName: {
+        fontWeight: "bold",
+        fontFamily: "Coolvetica",
+        ...Platform.select({
+            web: {
+                fontSize: 75
+            },
+            default: {
+                fontSize: 25,
+            }
+        }),
+    },
+    tempCardList: {
+        height:150, 
+        backgroundColor:"lightgrey",
+        margin: 10, 
+        borderWidth: 2, 
+        borderColor:"grey",
+        borderBottomRightRadius: 2,
+        borderTopRightRadius: 2,
+        flexDirection: "row",
+        alignContent:"center",
+        alignItems:"center",
+        zIndex: 2
+    },
+    
     container:{
         flex:1,
         alignContent: "center",
@@ -121,8 +174,16 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     faveIcon: {
-        height: 50,
-        width: 50,
+        ...Platform.select({
+            web:{
+                height: 100,
+                width: 100
+            },
+            default: {
+                width: 50,
+                height: 50,
+            }
+        }),
         zIndex: 3,
         // elevation: 3
     },
@@ -133,16 +194,7 @@ const styles = StyleSheet.create({
         padding:10,
         color: 'white',
         textAlign: 'center',
-        ...Platform.select({
-            android: {
-                borderTopWidth: 0.5, 
-                borderTopColor: '#7d90a0',
 
-            },
-            default: {
-
-            }
-        })
 
         
     }
