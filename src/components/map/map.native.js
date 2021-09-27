@@ -33,7 +33,12 @@ function Map({ route }) {
     return (
         <View style={styles.container}>
             <MapView style={styles.map}
-                     initialRegion={{ longitude: 4.8319618433010785, latitude: 45.75790021711596, longitudeDelta: LONGITUDE_DELTA, latitudeDelta: LATITUDE_DELTA }}
+                     initialRegion={{
+                         longitude: 4.8319618433010785,
+                         latitude: 45.75790021711596,
+                         longitudeDelta: LONGITUDE_DELTA,
+                         latitudeDelta: LATITUDE_DELTA
+                     }}
                      loadingEnabled
                      showsUserLocation
                      showsMyLocationButton
@@ -45,10 +50,14 @@ function Map({ route }) {
                 {
                     markers?.map(marker => {
                         return (
-                            <Marker identifier={marker.id} key={marker.id} coordinate={{
-                                latitude: marker.geometry.coordinates[1],
-                                longitude: marker.geometry.coordinates[0]
-                            }}/>
+                            <Marker identifier={`${marker.properties.id}`}
+                                    key={`${marker.properties.id}`}
+                                    title={`${marker.properties.nom}`}
+                                    description={`${marker.properties.descrcourtfr}`}
+                                    coordinate={{
+                                        latitude: marker.geometry.coordinates[1],
+                                        longitude: marker.geometry.coordinates[0]
+                                    }}/>
                         );
                     })
                 }
