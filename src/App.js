@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
-import Menu from './components/menuList/menuList';
-import Cities from './components/cities/cities';
+import Cities from './components/menuList/menuList';
 import Map from './components/map/map';
 import Faves from './components/faves/faves';
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,7 +16,7 @@ function App() {
 
     return (
         <>
-            <NavigationContainer>
+           <NavigationContainer>
                 <Tab.Navigator
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ focused, color, size }) => {
@@ -45,6 +44,7 @@ function App() {
                     <Tab.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/>
                 </Tab.Navigator>
             </NavigationContainer>
+ 
         </>
     );
 }
