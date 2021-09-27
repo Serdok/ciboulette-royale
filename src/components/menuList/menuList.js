@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image, Platform} from 'react-native';
-import { FlatList, State, TextInput } from 'react-native-gesture-handler';
+import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, FlatList, State, TextInput} from 'react-native';
 import { Link } from '../routing/routing';
 
 

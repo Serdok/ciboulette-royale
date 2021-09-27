@@ -4,6 +4,7 @@ import { Router, Route } from './components/routing/routing';
 import Header from './components/header/header';
 import Menu from './components/menuList/menuList';
 import Map from './components/map/map';
+import Faves from './components/faves/faves';
 
 function App() {
     useEffect(() => {
@@ -18,6 +19,7 @@ function App() {
                     <View style={styles.container}>
                         <Route exact path="/" component={Menu}/>
                         <Route path="/map/:city" component={Map}/>
+                        <Route path="/faves" component={Faves}/>
                     </View>
                 </Header>
             </Router>

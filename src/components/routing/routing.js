@@ -1,5 +1,5 @@
-import { BrowserRouter, Route as WebRoute, Link as WebLink} from 'react-router-dom';
+import { NativeRouter, Route as NativeRoute, Link as NativeLink } from "react-router-native";
 
-export let Router = BrowserRouter;
-export let Route = WebRoute;
-export let Link = WebLink;
+export let Router = NativeRouter;
+export let Route = NativeRoute;
+export let Link = NativeLink;
