@@ -8,18 +8,17 @@ const ASPECT_RATIO = Dimensions.get('window').width / Dimensions.get('window').h
 const LATITUDE_DELTA = 0.051;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-function Map({ match }) {
+function Map({ route }) {
     const [location, setLocation] = useState(null);
     const [markers, setMarkers] = useState(null);
 
     useEffect(() => {
         (async () => {
             // Get city from routing
-            const city = match.params['city'];
-            switch (city) {
+            const { city } = route.params;
+            switch (city.toLowerCase()) {
                 case "lyon":
                     const markers = await getDetailsForLyon();
-                    console.log('api call');
                     setMarkers(markers.features);
                     break;
             }
@@ -34,7 +33,12 @@ function Map({ match }) {
     return (
         <View style={styles.container}>
             <MapView style={styles.map}
-                     initialRegion={{ longitude: 4.8319618433010785, latitude: 45.75790021711596, longitudeDelta: LONGITUDE_DELTA, latitudeDelta: LATITUDE_DELTA }}
+                     initialRegion={{
+                         longitude: 4.8319618433010785,
+                         latitude: 45.75790021711596,
+                         longitudeDelta: LONGITUDE_DELTA,
+                         latitudeDelta: LATITUDE_DELTA
+                     }}
                      loadingEnabled
                      showsUserLocation
                      showsMyLocationButton
@@ -46,10 +50,14 @@ function Map({ match }) {
                 {
                     markers?.map(marker => {
                         return (
-                            <Marker identifier={marker.id} key={marker.id} coordinate={{
-                                latitude: marker.geometry.coordinates[1],
-                                longitude: marker.geometry.coordinates[0]
-                            }}/>
+                            <Marker identifier={`${marker.properties.id}`}
+                                    key={`${marker.properties.id}`}
+                                    title={`${marker.properties.nom}`}
+                                    description={`${marker.properties.descrcourtfr}`}
+                                    coordinate={{
+                                        latitude: marker.geometry.coordinates[1],
+                                        longitude: marker.geometry.coordinates[0]
+                                    }}/>
                         );
                     })
                 }
