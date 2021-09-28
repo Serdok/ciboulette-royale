@@ -15,10 +15,10 @@ const menuList = ({navigation}) => {
         let data = [
             {ville: "Lyon", 
              logourl: "https://www.lyon.fr/sites/lyonfr/files/content/2017-07/VDL-logo.jpg",
-             content: "La ville des lumières"},
-             {ville: "Dole",
-              logourl: "https://www.jura-tourism.com/wp-content/uploads/2018/12/juratourisme_07753_a5.jpg",
-              content: "La ville de Pasteur"}
+             content: "La ville des lumières"}//,
+            //  {ville: "Dole",
+            //   logourl: "https://www.jura-tourism.com/wp-content/uploads/2018/12/juratourisme_07753_a5.jpg",
+            //   content: "La ville de Pasteur"}
         ]
         setState({...state, cities: data, inMemoryCities: data})
         return () => mounted = false;
