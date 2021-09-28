@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import "leaflet/dist/leaflet.css";
+import "./map";
 import {
   LayersControl,
   FeatureGroup,
@@ -8,11 +9,13 @@ import {
   TileLayer,
   Marker,
   Popup,
+  Pane,
+  Circle,
 } from "react-leaflet";
 import L from "leaflet";
 //import *  from map.css;
 import data from "../../../assets/tourisme.json";
-
+//import { popupContent, popupHead, popupText, okText } from "./popup";
 
 // icones
 const museum = new L.Icon({
@@ -131,169 +134,196 @@ const Map = ({ match }) => {
   }, []);
 
   return (
+    <>
+      <View style={styles.container}>
+        <MapContainer
+          center={[45.757777, 4.83223]}
+          zoom={13}
+          scrollWheelZoom={true}
+          style={{ height: "100em" }}
+        >
+          <LayersControl position="topright">
+            <LayersControl.BaseLayer checked name="Plan">
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="satellite">
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              />
+            </LayersControl.BaseLayer>
 
-     <>
-    <View style={styles.container}>
-    <MapContainer
-       center={[45.757777, 4.83223]}
-       zoom={13}
-       scrollWheelZoom={true}
-       style={{height:'100em'}}
-     >
-       <LayersControl position="topright">
-         <LayersControl.BaseLayer checked name="Plan">
-           <TileLayer
-             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-           />
-         </LayersControl.BaseLayer>
-         <LayersControl.BaseLayer name="satellite">
-           <TileLayer
-             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-           />
-         </LayersControl.BaseLayer>
-
-         <LayersControl.Overlay name="Boutiques & Shopping">
-           <FeatureGroup>
-             {d_boutique.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               ></Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Activités, Loisirs et Bien-être">
-           <FeatureGroup>
-             {d_activite.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Restaurants & Gastronomie">
-           <FeatureGroup>
-             {d_restau.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Lyon Pratique">
-           <FeatureGroup>
-             {d_pratique.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Lieux de spectacles">
-           <FeatureGroup>
-             {d_spectacle.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Culture & Musées">
-           <FeatureGroup>
-             {d_culture.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Patrimoine - Unesco">
-           <FeatureGroup>
-             {d_patrimoine.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-         <LayersControl.Overlay name="Hotels">
-           <FeatureGroup>
-             {d_hotel.map((tourisme) => (
-               <Marker
-                 key={tourisme.properties.id}
-                 position={[
-                   tourisme.geometry.coordinates[1],
-                   tourisme.geometry.coordinates[0],
-                 ]}
-                 icon={j_type(tourisme.properties.theme)}
-               >
-                 <Popup>{tourisme.properties.nom}</Popup>
-               </Marker>
-             ))}
-           </FeatureGroup>
-         </LayersControl.Overlay>
-       </LayersControl>
-     </MapContainer>
-    </View> 
-    
-   </>
+            <LayersControl.Overlay name="Boutiques & Shopping">
+              <FeatureGroup>
+                {d_boutique.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  ></Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Activités, Loisirs et Bien-être">
+              <FeatureGroup>
+                {d_activite.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>
+                      <img
+                        src={tourisme.properties.illustrations[0]?.urlFiche}
+                        width="150" height="150"
+                      />
+                      <div
+                        style={{
+                          "text-align": "center",
+                          "align-content": "center",
+                          color: "black",
+                        }}
+                      >
+                        <a target="_blank" href={tourisme.properties.contact[1]?.siteweb}>
+                          {tourisme.properties.nom}
+                        </a>
+                        <br /> {<p style={{margin: 0 }}>
+                           Adresse </p>} <br />
+                        {tourisme.properties.address.streetAddress}
+                        <br /> {tourisme.properties.address.postalCode}
+                        <br /> {<p  style={{margin: 0 }} > Contacts </p>} <br />
+                        {tourisme.properties.contact[0].Téléphone}
+                        {console.log(tourisme.properties.contact[1]?.siteweb)}
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Restaurants & Gastronomie">
+              <FeatureGroup>
+                {d_restau.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>{tourisme.properties.nom}</Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Lyon Pratique">
+              <FeatureGroup>
+                {d_pratique.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>{tourisme.properties.nom}</Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Lieux de spectacles">
+              <FeatureGroup>
+                {d_spectacle.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>{tourisme.properties.nom}</Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Culture & Musées">
+              <FeatureGroup>
+                {d_culture.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>{tourisme.properties.nom}</Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Patrimoine - Unesco">
+              <FeatureGroup>
+                {d_patrimoine.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>{tourisme.properties.nom}</Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Hotels">
+              <FeatureGroup>
+                {d_hotel.map((tourisme) => (
+                  <Marker
+                    key={tourisme.properties.id}
+                    position={[
+                      tourisme.geometry.coordinates[1],
+                      tourisme.geometry.coordinates[0],
+                    ]}
+                    icon={j_type(tourisme.properties.theme)}
+                  >
+                    <Popup>{tourisme.properties.nom}</Popup>
+                  </Marker>
+                ))}
+              </FeatureGroup>
+            </LayersControl.Overlay>
+          </LayersControl>
+        </MapContainer>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-      ...StyleSheet.absoluteFillObject
+    ...StyleSheet.absoluteFillObject,
   },
   map: {
-      ...StyleSheet.absoluteFillObject
+    ...StyleSheet.absoluteFillObject,
   },
-})
+
+  leafletPopupContentWrapper: {
+    padding: 1,
+    textAlign: "center",
+    borderRadius: 12,
+  },
+});
 export default Map;
