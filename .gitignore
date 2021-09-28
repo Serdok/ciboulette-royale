@@ -25,6 +25,7 @@ project.xcworkspace
 # Android/IntelliJ
 #
 android/build/
+android/app/build/
 .idea
 .gradle
 local.properties
@@ -55,5 +56,6 @@ web-build/
 
 # Firebase
 .firebaserc
+firebase-debug.log
 firestore-debug.log
 ui-debug.log

@@ -1,38 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity } from 'react-native';
-import { Router, Route, Link } from './components/routing/routing';
-import Header from './components/header/header';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, Button, StatusBar } from 'react-native';
+import Cities from './components/menuList/menuList';
+import Map from './components/map/map';
+import Faves from './components/faves/faves';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { useFonts } from 'expo-font'
 
-import { getDetailsForLyon } from './services/lyon';
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
-    const [list, setList] = useState([]);
+    useEffect(() => {}, []);
 
-    useEffect(() => {
-        let mounted = true;
+    const [loaded] = useFonts({
+        Coolvetica: require("../assets/fonts/coolvetica.ttf")
+    });
 
-        // Load map details for Lyon when the component is loading
-        getDetailsForLyon()
-            .then(items => {
-                if (mounted) {
-                    setList(items.features);
-                }
-            });
-        return () => mounted = false;
-    }, []);
+    if(!loaded) {
+        return null;
+    }
 
     return (
         <>
-            <StatusBar backgroundColor="#383838"/>
-            <Router>
-                <Header/>
-                <View style={styles.container}>
+           <StatusBar style="auto" />
+           <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName;
+                            switch (route.name) {
+                                case 'Menu':
+                                    iconName = focused ? 'ios-funnel' : 'ios-funnel-outline';
+                                    break;
+                                case 'Map':
+                                    iconName = focused ? 'ios-compass' : 'ios-compass-outline';
+                                    break;
+                                case 'Favorites':
+                                    iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
+                                    break;
+                            }
 
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Automatic pull request working</Text>
-                    {/* <Route exact path="/" component={} */}
-                </View>
-
-            </Router>
+                            return <Ionicons name={iconName} size={size} color={color}/>;
+                        },
+                        tabBarActiveTintColor: 'tomato',
+                        tabBarInactiveTintColor: 'grey',
+                    })}
+                >
+                    <Tab.Screen name={'Menu'} component={Cities} options={{headerShown: false}}/>
+                    <Tab.Screen name={'Map'} component={Map} initialParams={{ city: 'lyon' }} options={{headerShown: false}}/>
+                    <Tab.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/>
+                </Tab.Navigator>
+            </NavigationContainer>
+ 
         </>
     );
 }
@@ -48,13 +70,13 @@ const styles = StyleSheet.create({
     animatedBox: {
         flex: 1,
         backgroundColor: "#38C8EC",
-        padding: 10
+        padding: 10,
     },
     body: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F04812'
+        backgroundColor: '#F04812',
     }
 });
 

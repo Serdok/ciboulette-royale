@@ -20,18 +20,49 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDtvFf-qq8ckq0vEsoL5opGpaR8t24kKxk"
+        }
+      },
       "googleServicesFile": "environment/google-services.json",
       "package": "com.estiam.ciboulette",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "FOREGROUND_SERVICE"
+      ],
       "versionCode": 1
     },
     "ios": {
       "bundleIdentifier": "com.estiam.ciboulette",
       "buildNumber": "1.0.0",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDtvFf-qq8ckq0vEsoL5opGpaR8t24kKxk"
+      },
       "googleServicesFile": "environment/GoogleService-Info.plist",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Allow Ciboulette Royale to use your location",
+        "NSLocationAlwaysUsageDescription": "Allow Ciboulette Royale to use your location",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow Ciboulette Royale to use your location"
+      },
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyBp22MHE-ItsSd-VsPNk_IVd7NkMdFyEKU",
+          "appId": "1:281693028745:web:ff6aadb0e55b29181f6158",
+          "authDomain": "ciboulette-royale.firebaseapp.com",
+          "databaseURL": "",
+          "measurementId": "G-EXWS0R1V8C",
+          "messagingSenderId": "281693028745",
+          "projectId": "ciboulette-royale",
+          "storageBucket": "ciboulette-royale.appspot.com"
+        }
+      },
+      "preferRelatedApplications": true
     }
   }
 }

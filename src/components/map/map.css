@@ -1,0 +1,10 @@
+.Carte{
+    height :100vh; 
+
+}
+
+.leaflet-popup-content-wrapper {
+    padding: 1px;
+    text-align: left;
+    border-radius: 12px;
+}
