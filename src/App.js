@@ -38,9 +38,9 @@ function App() {
                                 case 'Map':
                                     iconName = focused ? 'ios-compass' : 'ios-compass-outline';
                                     break;
-                                case 'Favorites':
-                                    iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
-                                    break;
+                                // case 'Favorites':
+                                //     iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
+                                //     break;
                             }
 
                             return <Ionicons name={iconName} size={size} color={color}/>;
@@ -51,7 +51,7 @@ function App() {
                 >
                     <Tab.Screen name={'Menu'} component={Cities} options={{headerShown: false}}/>
                     <Tab.Screen name={'Map'} component={Map} initialParams={{ city: 'lyon' }} options={{headerShown: false}}/>
-                    <Tab.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/>
+                    {/* <Tab.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/> */}
                 </Tab.Navigator>
             </NavigationContainer>
  
