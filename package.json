@@ -6,7 +6,7 @@
     "web": "expo start --web",
     "start": "expo start",
     "build-web": "expo build:web",
-    "build-android": "expo build:android -t app-bundle",
+    "build-android": "expo build:android -t apk",
     "build-ios": "expo build:ios -t archive",
     "prebuild": "expo prebuild",
     "simulate": "expo start --no-dev --minify",
