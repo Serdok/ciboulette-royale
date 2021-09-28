@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, FlatList, State, TextInput} from 'react-native';
+import { CardViewWithImage } from 'react-native-simple-card-view'
 
 const menuList = ({navigation}) => {
 
@@ -12,7 +13,12 @@ const menuList = ({navigation}) => {
     useEffect(() => {
         let mounted = true;
         let data = [
-            {ville: "Lyon"}
+            {ville: "Lyon", 
+             logourl: "https://www.lyon.fr/sites/lyonfr/files/content/2017-07/VDL-logo.jpg",
+             content: "La ville des lumières"},
+             {ville: "Dole",
+              logourl: "https://www.jura-tourism.com/wp-content/uploads/2018/12/juratourisme_07753_a5.jpg",
+              content: "La ville de Pasteur"}
         ]
         setState({...state, cities: data, inMemoryCities: data})
         return () => mounted = false;
@@ -32,15 +38,19 @@ const menuList = ({navigation}) => {
     return(
         <>
         <View style={{...StyleSheet.absoluteFill}}>
-            <TextInput
-                    placeholder="Recherche"
-                    placeholderTextColor="#FFFFFF"
-                    style={styles.searchBar}
-                    onChangeText={(value) => searchCities(value)}/>
+            <View style={{...StyleSheet.absoluteFill}}>
+                <TextInput
+                        placeholder="Recherche"
+                        placeholderTextColor="#FFFFFF"
+                        style={styles.searchBar}
+                        onChangeText={(value) => searchCities(value)}/>
+            </View>
+            <View style={{...StyleSheet.absoluteFill,justifyContent:"center", textAlign:"center", alignItems:"center", elevation: 3, marginTop: 75}}>
                 <FlatList
                     data={state.cities}
-                    renderItem={({item}) => <CardElement ville={item.ville} navigation={navigation}/>}
+                    renderItem={({item}) => <CardElement ville={item} navigation={navigation}/>}
                     style={styles.container}/>
+            </View>
         </View>
 
         </>
@@ -64,18 +74,16 @@ const CardElement = ({navigation, ville}) => {
 
     return(
         <>
-            <TouchableOpacity onPress={() => navigation.navigate('Map',{city:ville})} style={styles.tempCardList}>
-                <View style={{flex:2}}>
-                    <Image style={styles.cityPreview} source={{uri:'https://j3n6c2a8.rocketcdn.me/wp-content/uploads/2019/11/ville_lyon-scaled.jpg'}}/>
-                </View>
-                <View style={styles.cityNameContainer}>
-                    <Text style={styles.cityName}>{ville}</Text>
-                </View>
-                <TouchableOpacity style={styles.containerFave} onPress={() => changeColor(tint)}>
-                    <Image style={[styles.faveIcon, {tintColor: tint}]} source={fave}/>
-                </TouchableOpacity>
-            </TouchableOpacity>
-
+            <CardViewWithImage
+                         width={ 200}  
+                        source={ {uri: ville.logourl} }
+                        content={ville.content}
+                        title={ville.ville}
+                        imageWidth={ '100%' }
+                        imageHeight={ 100 }
+                        onPress={() => navigation.navigate('Map',{city:ville.ville})}
+                        roundedImage={ false } 
+            />
 
         </>
     );
@@ -180,8 +188,9 @@ const styles = StyleSheet.create({
                 width: 100
             },
             default: {
-                width: 50,
-                height: 50,
+                width: 40,
+                height:40,
+                marginTop: 100
             }
         }),
         zIndex: 3,
