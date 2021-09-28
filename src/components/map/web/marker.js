@@ -1,12 +1,10 @@
 import React from 'react';
 import { Marker } from "react-leaflet";
-import { THEMES } from "./THEMES";
+import { THEMES } from "../THEMES";
 import { Icon, Point } from 'leaflet';
 
 export default function MapMarker(props) {
     const { id, coordinates, theme } = props;
-    console.log(`${id}: theme is ${theme}`);
-    console.log('icon: ', getLeafletIcon(theme));
 
     function getLeafletIcon(themeName) {
         return new Icon({

@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Dimensions, } from "react-native";
-import { Marker } from "react-native-maps";
-import MapView from "react-native-map-clustering";
+import { StyleSheet, Dimensions, Image } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+// import MapView from "react-native-map-clustering";
+import MapControl from "./native/control";
+
 import { getDetailsForLyon } from "../../services/lyon";
+import Feature from "./native/feature";
+import { THEMES } from "./THEMES";
+
 
 const ASPECT_RATIO = Dimensions.get('window').width / Dimensions.get('window').height;
 const LATITUDE_DELTA = 0.051;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 function Map({ route }) {
-    const [location, setLocation] = useState(null);
-    const [markers, setMarkers] = useState(null);
+    const [features, setFeatures] = useState(null);
+    const [themes, setThemes] = useState(() => new Set());
+    const [mapType, setMapType] = useState('standard');
 
     useEffect(() => {
         (async () => {
@@ -18,20 +24,41 @@ function Map({ route }) {
             const { city } = route.params;
             switch (city.toLowerCase()) {
                 case "lyon":
-                    const markers = await getDetailsForLyon();
-                    setMarkers(markers.features);
+                    const result = await getDetailsForLyon();
+                    setFeatures(result.features);
                     break;
             }
         })();
     }, []);
 
-    const onUserLocationChange = coords => {
-        console.log(coords);
-        setLocation(coords);
-    };
+    const addTheme = theme => setThemes(prev => new Set(prev).add(theme))
+    const removeTheme = theme => setThemes(prev => {
+        const next = new Set(prev);
+        next.delete(theme);
+        return next;
+    });
+
+    function renderFeatures() {
+        if (!features) {
+            return null;
+        }
+
+        return THEMES.map(theme => {
+            if (!themes.has(theme.name)) {
+                return null;
+            }
+
+            const filtered = features.filter(feature => feature.properties.theme.includes(theme.name));
+            return (
+                <>
+                    <Feature features={filtered} theme={theme.name}/>
+                </>
+            );
+        })
+    }
 
     return (
-        <View style={styles.container}>
+        <>
             <MapView style={styles.map}
                      initialRegion={{
                          longitude: 4.8319618433010785,
@@ -39,37 +66,24 @@ function Map({ route }) {
                          longitudeDelta: LONGITUDE_DELTA,
                          latitudeDelta: LATITUDE_DELTA
                      }}
+                     mapType={mapType}
                      loadingEnabled
                      showsUserLocation
                      showsMyLocationButton
                      followsUserLocation
                      showsIndoorLevelPicker
-
-                     onUserLocationChange={e => onUserLocationChange(e.nativeEvent)}
+                     provider={PROVIDER_GOOGLE}
             >
-                {
-                    markers?.map(marker => {
-                        return (
-                            <Marker identifier={`${marker.properties.id}`}
-                                    key={`${marker.properties.id}`}
-                                    title={`${marker.properties.nom}`}
-                                    description={`${marker.properties.descrcourtfr}`}
-                                    coordinate={{
-                                        latitude: marker.geometry.coordinates[1],
-                                        longitude: marker.geometry.coordinates[0]
-                                    }}/>
-                        );
-                    })
-                }
+                { renderFeatures() }
             </MapView>
-        </View>
+            <MapControl mapType={mapType} setMapType={setMapType}
+                        addFilter={addTheme} removeFilter={removeTheme}
+            />
+        </>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject
-    },
     map: {
         ...StyleSheet.absoluteFillObject
     },

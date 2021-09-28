@@ -13,8 +13,8 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 
-import Overlay from "./overlay";
-import Feature from "./feature";
+import Overlay from "./web/overlay";
+import Feature from "./web/feature";
 
 import { THEMES } from "./THEMES";
 import { getDetailsForLyon } from "../../services/lyon";
@@ -147,7 +147,6 @@ const Map = ({ route }) => {
 
         return THEMES.map(theme => {
             // Only keep features with the theme
-            console.log(theme);
             const filtered = features.filter(feature => feature.properties.theme.includes(theme.name));
 
             return (

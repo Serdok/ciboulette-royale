@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, Button, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
+import { useFonts } from 'expo-font'
+import { Provider as PaperProvider } from 'react-native-paper';
+
 import Cities from './components/menuList/menuList';
 import Map from './components/map/map';
 import Faves from './components/faves/faves';
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font'
 
-const Stack = createNativeStackNavigator();
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
 function App() {
@@ -25,36 +25,37 @@ function App() {
 
     return (
         <>
-           <StatusBar style="auto" />
-           <NavigationContainer>
-                <Tab.Navigator
-                    screenOptions={({ route }) => ({
-                        tabBarIcon: ({ focused, color, size }) => {
-                            let iconName;
-                            switch (route.name) {
-                                case 'Menu':
-                                    iconName = focused ? 'ios-funnel' : 'ios-funnel-outline';
-                                    break;
-                                case 'Map':
-                                    iconName = focused ? 'ios-compass' : 'ios-compass-outline';
-                                    break;
-                                // case 'Favorites':
-                                //     iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
-                                //     break;
-                            }
+           <PaperProvider>
+               <StatusBar style="auto" />
+               <NavigationContainer>
+                   <Tab.Navigator
+                       screenOptions={({ route }) => ({
+                           tabBarIcon: ({ focused, color, size }) => {
+                               let iconName;
+                               switch (route.name) {
+                                   case 'Menu':
+                                       iconName = focused ? 'ios-funnel' : 'ios-funnel-outline';
+                                       break;
+                                   case 'Map':
+                                       iconName = focused ? 'ios-compass' : 'ios-compass-outline';
+                                       break;
+                                   // case 'Favorites':
+                                   //     iconName = focused ? 'ios-bookmark' : 'ios-bookmark-outline';
+                                   //     break;
+                               }
 
-                            return <Ionicons name={iconName} size={size} color={color}/>;
-                        },
-                        tabBarActiveTintColor: 'tomato',
-                        tabBarInactiveTintColor: 'grey',
-                    })}
-                >
-                    <Tab.Screen name={'Menu'} component={Cities} options={{headerShown: false}}/>
-                    <Tab.Screen name={'Map'} component={Map} initialParams={{ city: 'lyon' }} options={{headerShown: false}}/>
-                    {/* <Tab.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/> */}
-                </Tab.Navigator>
-            </NavigationContainer>
- 
+                               return <Ionicons name={iconName} size={size} color={color}/>;
+                           },
+                           tabBarActiveTintColor: 'tomato',
+                           tabBarInactiveTintColor: 'grey',
+                       })}
+                   >
+                       <Tab.Screen name={'Menu'} component={Cities} options={{headerShown: false}}/>
+                       <Tab.Screen name={'Map'} component={Map} initialParams={{ city: 'lyon' }} options={{headerShown: false}}/>
+                       {/*<Tab.Screen name={'Favorites'} component={Faves} options={{headerShown: false}}/>*/}
+                   </Tab.Navigator>
+               </NavigationContainer>
+           </PaperProvider>
         </>
     );
 }
